@@ -23,14 +23,14 @@ public class BasicController {
     }
 
     /**
-     * 测试多线程导入用户
+     * 1.测试多线程导入用户
      * @param organization
      * @param file
      */
     @RequestMapping(value="/import/user")
     @ResponseBody
-    public String importUser(@RequestParam("organization") String  organization,
-                           @RequestParam("file") MultipartFile file) throws ExecutionException, InterruptedException {
+    public String importUser(@RequestParam(value = "organization",required = false) String  organization,
+                           @RequestParam(value = "file",required = false) MultipartFile file) throws ExecutionException, InterruptedException {
         return basicService.importUser(organization,file);
     }
 

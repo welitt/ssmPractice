@@ -1,14 +1,16 @@
 package com.ssm.service.impl;
 
-import com.google.common.util.concurrent.FutureCallback;
 import com.ssm.constant.UserInfoConstant;
 import com.ssm.entity.User;
+import com.ssm.mapper.UserMapper;
 import com.ssm.service.BasicService;
 import com.ssm.task.ImportUserTask;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -18,13 +20,17 @@ import java.util.concurrent.FutureTask;
 
 @Service
 public class BasicServiceImpl implements BasicService {
+    @Resource
+    private UserMapper userMapper;
 
+    @Transactional
     @Override
     public ModelAndView basicInfo() {
+        User user = userMapper.findUserById(1);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/WEB-INF/basic");
-        modelAndView.addObject("name","cathy");
-        modelAndView.addObject("sex","女");
+        modelAndView.addObject("name",user.getName());
+        modelAndView.addObject("constellationType",user.getConstellationType());
         return modelAndView;
     }
 
@@ -37,7 +43,7 @@ public class BasicServiceImpl implements BasicService {
 
         List<FutureTask<User>> callbacks = new ArrayList<>();
         for(User user : userList){
-            FutureTask<User> userFutureTask = new FutureTask<>(new ImportUserTask(user));
+            FutureTask<User> userFutureTask = new FutureTask<>(new ImportUserTask(userMapper,user));
             service.execute(userFutureTask);
             callbacks.add(userFutureTask);
         }

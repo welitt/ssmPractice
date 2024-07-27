@@ -2,7 +2,12 @@ package com.ssm.entity;
 
 import com.ssm.constant.UserInfoConstant;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Table(name="user")
 public class User {
+    @Id
     private Integer id;
     private String name;
     private UserInfoConstant.ConstellationType constellationType;

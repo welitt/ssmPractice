@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class FileController {
 
     /**
-     * 验证DocumentDocument.class类重复的bug以及解决方法。
+     * 2.验证DocumentDocument.class类重复的bug以及解决方法
      */
     @RequestMapping("/file/docx/read")
     @ResponseBody
