@@ -5,6 +5,8 @@ import com.ssm.entity.User;
 import com.ssm.mapper.UserMapper;
 import com.ssm.service.BasicService;
 import com.ssm.task.ImportUserTask;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,8 @@ import java.util.concurrent.FutureTask;
 public class BasicServiceImpl implements BasicService {
     @Resource
     private UserMapper userMapper;
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Transactional
     @Override
@@ -48,6 +52,7 @@ public class BasicServiceImpl implements BasicService {
             callbacks.add(userFutureTask);
         }
 
+        // calbacks都有值吗？
         int successCnt = 0,failCnt = 0;
         for(FutureTask<User> userFutureTask : callbacks){
             User user = userFutureTask.get();
@@ -56,6 +61,8 @@ public class BasicServiceImpl implements BasicService {
             }else
                 successCnt++;
         }
+
+//        applicationContext.publishEvent();
         return "导入成功："+successCnt+"！导入失败："+failCnt;
     }
 }

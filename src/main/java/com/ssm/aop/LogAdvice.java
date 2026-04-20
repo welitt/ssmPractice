@@ -13,6 +13,14 @@ import org.springframework.stereotype.Component;
 public class LogAdvice {
     /**
      * 定义一个切点
+     * 在初始化BasicServiceImpl时：
+     * specificInterceptors中会出现InstantiationModelAwarePointcutAdvisorImpl 值为：logAdvicePointcut()
+     * 和
+     * specificInterceptors中会出现InstantiationModelAwarePointcutAdvisorImpl 值为：logAdvicePointcut2()
+     * 最后的输出结果为：
+     * ------------BasicService.class------------
+     * ------------BasicServiceImpl.basicInfo() start------------
+     * 表示先代理实现的父类，然后才是子类。
      */
     @Pointcut("execution(* com.ssm.service.BasicService.*(..))")
     public void logAdvicePointcut(){}
